@@ -1,0 +1,6 @@
+
+{
+  "jwtPrivateKey": "cf7e59a368b3480d32edaa2e6c3742a1",
+  "db": "mongodb://localhost:/hobby",
+  "port": "3000"
+}

@@ -1,0 +1,249 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "user hobbies"
+  contact:
+    email: "nimasrn.com@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:300"
+basePath: "/api/v1"
+tags:
+- name: "user"
+  description: ""
+schemes:
+- "http"
+paths:
+  /users:
+    post:
+      tags:
+      - "user"
+      summary: "Add a new user"
+      description: ""
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "400":
+          description: "Invalid input"
+        "200":
+          description: "created successfully"
+          schema:
+            $ref: "#/definitions/User"
+    get:
+      tags:
+      - "user"
+      summary: "get all users"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "list of users"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+  /user/{userId}:
+    get:
+      tags:
+      - "user"
+      summary: "get user by Id"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user Id"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/User"
+        "404":
+          description: "user is not exist"
+    put:
+      tags:
+      - "user"
+      summary: "modify user by Id"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user Id"
+        required: true
+        type: "string"
+      - name: "name"
+        in: "body"
+        description: "user new name"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/User"
+        "404":
+          description: "user is not exist"
+        "400":
+          description: "Invalid input"
+    delete:
+      tags:
+      - "user"
+      summary: "delete user by Id"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user Id"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "user is not exist"
+  /user/hobbies:
+    get:
+      tags:
+      - "hobby"
+      summary: "get all hobbies"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Hobby"
+  /user/{userId}/hobbies:
+    get:
+      tags:
+      - "hobby"
+      summary: "get user hobbies by Id"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user Id"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Hobby"
+        "404":
+          description: "user is not exist"
+    post:
+      tags:
+      - "hobby"
+      summary: "add new hobby for user"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user Id"
+        required: true
+        type: "string"
+      - name: "name"
+        in: "body"
+        description: "new hobby"
+        required: true
+        schema:
+           $ref: "#/definitions/Hobby"
+      responses:
+        "201":
+          description: "created successfully"
+          schema:
+              $ref: "#/definitions/Hobby"
+        "404":
+          description: "user is not exist"
+        "400":
+          description: "Invalid input"
+          
+  /user/{userId}/hobbies/{hobbyId}:
+    delete:
+      tags:
+      - "hobby"
+      summary: "delete user hobby by Id"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user Id"
+        required: true
+        type: "string"
+      - name: "hobbyId"
+        in: "path"
+        description: "hobby Id"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "user/hobby is not exist"
+
+definitions:
+  User:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      hobbies:
+        type: "array"
+        items:
+          $ref: "#/definitions/Hobby"
+        description: "User hobies"
+  Hobby:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      year:
+        type: "integer"
+      passionLevel:
+        type: "string"
+        enum:
+        - "Low"
+        - "Medium"
+        - "High"
+        - "Very-High"
+    xml:
+      name: "Tag"
